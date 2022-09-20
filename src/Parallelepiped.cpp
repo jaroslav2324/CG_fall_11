@@ -6,16 +6,15 @@
 Parallelepiped::Parallelepiped(){
 
     pointsCoords = new Matrix(8, 4);
-    basicPointsCoords = new Matrix(8, 4);
 
-    //TODO findCenter
-    //TODO set basic coords of parall
+    //TODO set coords of parall
+
+    findCenter();
 }
 
 Parallelepiped::~Parallelepiped(){
 
     delete pointsCoords;
-    delete basicPointsCoords;
 }
 
 void Parallelepiped::findCenter(){
@@ -43,9 +42,8 @@ void Parallelepiped::findCenter(){
     centerPoint.z = centerZ;
 }
 
+// moving center of parallelepiped to (0, 0, 0) point
 void Parallelepiped::moveToCenterCoords(){
-
-    findCenter();
 
     //shift to center of the world along x axis
     addToPointsCoordsMatrix(0, 0, -centerPoint.x);
@@ -122,6 +120,16 @@ void Parallelepiped::addToPointsCoordsMatrix(int numRow, int numCol, int addValu
     pointsCoords->setElm(numRow, numCol, coord);
 }
 
+void Parallelepiped::mulToPointsCoordsMatrix(int numRow, int numCol, int mulValue){
+
+    //TODO check numRow, numCol
+
+    double coord;
+    coord = pointsCoords->getElm(numRow, numCol) * mulValue;
+    pointsCoords->setElm(numRow, numCol, coord);
+}
+
+
 void Parallelepiped::moveAlongX(double moveDistance){
 
     //get previous value of coord, sum with moveDistance, set new value of coord.
@@ -161,68 +169,9 @@ void Parallelepiped::moveAlongZ(double moveDistance){
     addToPointsCoordsMatrix(7, 2, moveDistance);
 }
 
-Matrix Parallelepiped::createXRotationMatrix(double rotationValue){
-
-    Matrix rotationMatrixX(4, 4);
-
-    //TODO refactor add matrix = array
-
-    // first row
-    rotationMatrixX.setElm(0, 0, 1); rotationMatrixX.setElm(0, 1, 0); rotationMatrixX.setElm(0, 2, 0); rotationMatrixX.setElm(0, 3, 0);
-    // second row 
-    rotationMatrixX.setElm(1, 0, 0); rotationMatrixX.setElm(1, 1, cos(rotationValue)); rotationMatrixX.setElm(1, 2, sin(rotationValue));
-    rotationMatrixX.setElm(1, 3, 0);
-    // third row
-    rotationMatrixX.setElm(2, 0, 0); rotationMatrixX.setElm(2, 1, -sin(rotationValue)); rotationMatrixX.setElm(2, 2, cos(rotationValue));
-    rotationMatrixX.setElm(2, 3, 0);
-    // fourth row
-    rotationMatrixX.setElm(0, 0, 0); rotationMatrixX.setElm(0, 1, 0); rotationMatrixX.setElm(0, 2, 0); rotationMatrixX.setElm(0, 3, 1);
-
-    return rotationMatrixX;
-}
-
-Matrix Parallelepiped::createYRotationMatrix(double rotationValue){
-    
-    Matrix rotationMatrixY(4, 4);
-
-    //TODO refactor
-
-    // first row
-    rotationMatrixY.setElm(0, 0, cos(rotationValue)); rotationMatrixY.setElm(0, 1, 0); rotationMatrixY.setElm(0, 2, sin(rotationValue));
-    rotationMatrixY.setElm(0, 3, 0);
-    // second row 
-    rotationMatrixY.setElm(1, 0, 0); rotationMatrixY.setElm(1, 1, 1); rotationMatrixY.setElm(1, 2, 0); rotationMatrixY.setElm(1, 3, 0);
-    // third row
-    rotationMatrixY.setElm(2, 0, -sin(rotationValue)); rotationMatrixY.setElm(2, 1, 0); rotationMatrixY.setElm(2, 2, cos(rotationValue));
-    rotationMatrixY.setElm(2, 3, 0);
-    // fourth row
-    rotationMatrixY.setElm(0, 0, 0); rotationMatrixY.setElm(0, 1, 0); rotationMatrixY.setElm(0, 2, 0); rotationMatrixY.setElm(0, 3, 1);
-
-    return rotationMatrixY;
-}
-
-Matrix Parallelepiped::createZRotationMatrix(double rotationValue){
-    
-    Matrix rotationMatrixY(4, 4);
-
-    //TODO refactor
-
-    // first row
-    rotationMatrixY.setElm(0, 0, cos(rotationValue)); rotationMatrixY.setElm(0, 1, sin(rotationValue)); rotationMatrixY.setElm(0, 2, 0);
-    rotationMatrixY.setElm(0, 3, 0);
-    // second row 
-    rotationMatrixY.setElm(1, 0, -sin(rotationValue)); rotationMatrixY.setElm(1, 1, cos(rotationValue)); rotationMatrixY.setElm(1, 2, 0); 
-    rotationMatrixY.setElm(1, 3, 0);
-    // third row
-    rotationMatrixY.setElm(2, 0, 0); rotationMatrixY.setElm(2, 1, 0); rotationMatrixY.setElm(2, 2, 1); rotationMatrixY.setElm(2, 3, 0);
-    // fourth row
-    rotationMatrixY.setElm(0, 0, 0); rotationMatrixY.setElm(0, 1, 0); rotationMatrixY.setElm(0, 2, 0); rotationMatrixY.setElm(0, 3, 1);
-
-    return rotationMatrixY;
-}
-
 void Parallelepiped::rotateAroundX(double rotationValue){
 
+    findCenter();
     moveToCenterCoords();
 	
     Matrix rotationMatrix = createXRotationMatrix(rotationValue);
@@ -234,6 +183,7 @@ void Parallelepiped::rotateAroundX(double rotationValue){
 
 void Parallelepiped::rotateAroundY(double rotationValue){
  
+    findCenter();
     moveToCenterCoords();
 	
     Matrix rotationMatrix = createYRotationMatrix(rotationValue);
@@ -245,6 +195,7 @@ void Parallelepiped::rotateAroundY(double rotationValue){
 
 void Parallelepiped::rotateAroundZ(double rotationValue){
     
+    findCenter();
     moveToCenterCoords();
 	
     Matrix rotationMatrix = createZRotationMatrix(rotationValue);
@@ -256,5 +207,36 @@ void Parallelepiped::rotateAroundZ(double rotationValue){
 
 
 void Parallelepiped::scale(double scaleCoefficient){
-    //TODO
+
+    findCenter();
+    moveToCenterCoords();
+
+    mulToPointsCoordsMatrix(0, 0, scaleCoefficient);
+    mulToPointsCoordsMatrix(1, 0, scaleCoefficient);
+    mulToPointsCoordsMatrix(2, 0, scaleCoefficient);
+    mulToPointsCoordsMatrix(3, 0, scaleCoefficient);
+    mulToPointsCoordsMatrix(4, 0, scaleCoefficient);
+    mulToPointsCoordsMatrix(5, 0, scaleCoefficient);
+    mulToPointsCoordsMatrix(6, 0, scaleCoefficient);
+    mulToPointsCoordsMatrix(7, 0, scaleCoefficient);
+
+    mulToPointsCoordsMatrix(0, 1, scaleCoefficient);
+    mulToPointsCoordsMatrix(1, 1, scaleCoefficient);
+    mulToPointsCoordsMatrix(2, 1, scaleCoefficient);
+    mulToPointsCoordsMatrix(3, 1, scaleCoefficient);
+    mulToPointsCoordsMatrix(4, 1, scaleCoefficient);
+    mulToPointsCoordsMatrix(5, 1, scaleCoefficient);
+    mulToPointsCoordsMatrix(6, 1, scaleCoefficient);
+    mulToPointsCoordsMatrix(7, 1, scaleCoefficient);
+
+    mulToPointsCoordsMatrix(0, 2, scaleCoefficient);
+    mulToPointsCoordsMatrix(1, 2, scaleCoefficient);
+    mulToPointsCoordsMatrix(2, 2, scaleCoefficient);
+    mulToPointsCoordsMatrix(3, 2, scaleCoefficient);
+    mulToPointsCoordsMatrix(4, 2, scaleCoefficient);
+    mulToPointsCoordsMatrix(5, 2, scaleCoefficient);
+    mulToPointsCoordsMatrix(6, 2, scaleCoefficient);
+    mulToPointsCoordsMatrix(7, 2, scaleCoefficient);
+
+    moveFromCenterCoords();
 }
