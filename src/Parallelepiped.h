@@ -1,3 +1,4 @@
+#include "settings.h"
 #include "Point.h"
 #include "Matrix.h"
 #include "rotationMatrixes.h"
@@ -21,6 +22,8 @@ public:
 
 protected:
     Matrix* pointsCoords;
+
+    int numVertexes = 8;
 
     Point centerPoint;
     void findCenter();
