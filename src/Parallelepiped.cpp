@@ -175,3 +175,76 @@ void Parallelepiped::scale(double scaleCoefficient){
 
     moveFromCenterCoords();
 }
+
+Surface* Parallelepiped::createArrayOfSurfaces(){
+
+    //TODO refactor
+
+    int numSurfaces = 6;
+    int numPointsInSurface = 4;
+
+    Color* surfacesColors = new Color[numSurfaces];
+    // dark red
+    surfacesColors[0] = Color(180, 0, 0, 255);
+    // dark green
+    surfacesColors[1] = Color(0, 180, 0, 255);
+    // dark blue
+    surfacesColors[2] = Color(0, 0, 180, 255);
+    // dark yellow
+    surfacesColors[3] = Color(180, 180, 0, 255);
+    // dark magenta
+    surfacesColors[4] = Color(180, 0, 180, 255);
+    // dark cyan
+    surfacesColors[5] = Color(0, 180, 180, 255);
+
+    Point* arrayOfSurfacePoints = new Point[numPointsInSurface];
+    Point p;
+
+    Surface* surfaceArray = new Surface[numSurfaces];
+
+
+    // create surfaces of parallelepiped from matrix of points
+    for (int i = 0; i < numSurfaces; i++){
+
+        //fill array of surface points for every surface
+        int indexFirstPoint = i % numSurfaces;
+
+        p.x = pointsCoords->getElm(indexFirstPoint, 0);
+        p.y = pointsCoords->getElm(indexFirstPoint, 1);
+        p.z = pointsCoords->getElm(indexFirstPoint, 2);
+
+        arrayOfSurfacePoints[0] = p;
+
+        int indexSecondPoint = (i + 1) % numSurfaces;
+
+        p.x = pointsCoords->getElm(indexSecondPoint, 0);
+        p.y = pointsCoords->getElm(indexSecondPoint, 1);
+        p.z = pointsCoords->getElm(indexSecondPoint, 2);
+
+        arrayOfSurfacePoints[1] = p;
+
+        int indexThirdPoint = (i + 2) % numSurfaces;
+
+        p.x = pointsCoords->getElm(indexThirdPoint, 0);
+        p.y = pointsCoords->getElm(indexThirdPoint, 1);
+        p.z = pointsCoords->getElm(indexThirdPoint, 2);
+
+        arrayOfSurfacePoints[2] = p;
+
+        int indexFourthPoint = (i + 3) % numSurfaces;
+
+        p.x = pointsCoords->getElm(indexFourthPoint, 0);
+        p.y = pointsCoords->getElm(indexFourthPoint, 1);
+        p.z = pointsCoords->getElm(indexFourthPoint, 2);
+
+        arrayOfSurfacePoints[3] = p;
+
+        //create surface
+        surfaceArray[i] = Surface(numPointsInSurface, arrayOfSurfacePoints, surfacesColors[i]);
+    }
+
+    delete surfacesColors;
+    delete arrayOfSurfacePoints;
+
+    return surfaceArray;
+}

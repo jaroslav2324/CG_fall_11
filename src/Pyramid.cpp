@@ -175,3 +175,64 @@ void Pyramid::scale(double scaleCoefficient){
 
     moveFromCenterCoords();
 }
+
+Surface* Pyramid::createArrayOfSurfaces(){
+
+    //TODO refactor
+
+    int numSurfaces = 4;
+    int numPointsInSurface = 3;
+
+    Color* surfacesColors = new Color[numSurfaces];
+    // red
+    surfacesColors[0] = Color(255, 0, 0, 255);
+    // green
+    surfacesColors[1] = Color(0, 255, 0, 255);
+    // blue
+    surfacesColors[2] = Color(0, 0, 255, 255);
+    // yellow
+    surfacesColors[3] = Color(255, 255, 0, 255);
+
+    Point* arrayOfSurfacePoints = new Point[numPointsInSurface];
+    Point p;
+
+    Surface* surfaceArray = new Surface[numSurfaces];
+
+
+    // create surfaces of pyramid from matrix of points
+    for (int i = 0; i < numSurfaces; i++){
+
+        //fill array of surface points for every surface
+        int indexFirstPoint = i % numSurfaces;
+
+        p.x = pointsCoords->getElm(indexFirstPoint, 0);
+        p.y = pointsCoords->getElm(indexFirstPoint, 1);
+        p.z = pointsCoords->getElm(indexFirstPoint, 2);
+
+        arrayOfSurfacePoints[0] = p;
+
+        int indexSecondPoint = (i + 1) % numSurfaces;
+
+        p.x = pointsCoords->getElm(indexSecondPoint, 0);
+        p.y = pointsCoords->getElm(indexSecondPoint, 1);
+        p.z = pointsCoords->getElm(indexSecondPoint, 2);
+
+        arrayOfSurfacePoints[1] = p;
+
+        int indexThirdPoint = (i + 2) % numSurfaces;
+
+        p.x = pointsCoords->getElm(indexThirdPoint, 0);
+        p.y = pointsCoords->getElm(indexThirdPoint, 1);
+        p.z = pointsCoords->getElm(indexThirdPoint, 2);
+
+        arrayOfSurfacePoints[2] = p;
+
+        //create surface
+        surfaceArray[i] = Surface(numPointsInSurface, arrayOfSurfacePoints, surfacesColors[i]);
+    }
+
+    delete surfacesColors;
+    delete arrayOfSurfacePoints;
+
+    return surfaceArray;
+}

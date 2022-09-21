@@ -2,6 +2,7 @@
 #include "Point.h"
 #include "Matrix.h"
 #include "rotationMatrixes.h"
+#include "Surface.h"
 
 
 class Parallelepiped{
@@ -19,6 +20,9 @@ public:
     void rotateAroundZ(double rotationAngle);
 
     void scale(double scaleCoefficient);
+
+    //TODO
+    Surface* createArrayOfSurfaces();
 
 protected:
     Matrix* pointsCoords;
