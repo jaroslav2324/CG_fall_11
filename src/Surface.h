@@ -1,3 +1,6 @@
+#include "SDL2/SDL.h"
+
+#include "settings.h"
 #include "Color.h"
 #include "Point.h"
 
@@ -6,6 +9,8 @@ public:
     Surface(int numPoints, Point* array, Color color);
     Surface();
     ~Surface();
+
+    SDL_Rect getCoveringSurfaceRect();
 
 private:
 

@@ -8,6 +8,7 @@ class ZBuffer{
 
 public:
     ZBuffer();
+    void renderBuffer(SDL_Renderer* renderer);
 
 private:
     void clearZBuffer();
