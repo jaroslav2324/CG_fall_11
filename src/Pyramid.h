@@ -20,13 +20,15 @@ public:
 
     void scale(double scaleCoefficient);
 
-    //TODO
     Surface* createArrayOfSurfaces();
+
+    int getNumSurfaces();
 
 protected:
     Matrix* pointsCoords;
 
     int numVertexes = 4;
+    int numSurfaces = 4;
 
     Point centerPoint;
     void findCenter();

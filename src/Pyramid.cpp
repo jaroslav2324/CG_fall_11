@@ -236,3 +236,7 @@ Surface* Pyramid::createArrayOfSurfaces(){
 
     return surfaceArray;
 }
+
+int Pyramid::getNumSurfaces(){
+    return numSurfaces;
+}
