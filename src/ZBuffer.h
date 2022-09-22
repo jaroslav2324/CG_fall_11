@@ -9,7 +9,7 @@ class ZBuffer{
 public:
     ZBuffer();
     //TODO 
-    void renderBuffer(SDL_Renderer* renderer);
+    void renderBuffer(SDL_Renderer* renderer, Parallelepiped* par, Pyramid* pyr);
 
 private:
     void clearZBuffer();

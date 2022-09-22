@@ -2,6 +2,7 @@
 
 ZBuffer::ZBuffer(){
 
+    clearZBuffer();
 }
 
 void ZBuffer::placeParallelepiped(Parallelepiped* par){
@@ -133,4 +134,21 @@ void ZBuffer::clearZBuffer(){
             zBuffer[i][j] = MINUS_INFINITY;
         }
 
+}
+
+void ZBuffer::renderBuffer(SDL_Renderer* renderer, Parallelepiped* par, Pyramid* pyr){
+
+    clearZBuffer();
+
+    placeParallelepiped(par);
+    placePyramid(pyr);
+
+    for (int x = 0; x < SCREEN_WIDTH; x++)
+        for (int y = 0; y < SCREEN_HEIGHT; y++){
+            Color color = screenColorsArray[x][y];
+            SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
+            SDL_RenderDrawPoint(renderer, x, y);
+        }
+
+    SDL_RenderPresent(renderer);
 }
