@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Point.h"
 #include "Matrix.h"
 #include "rotationMatrixes.h"

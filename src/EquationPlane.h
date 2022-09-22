@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Point.h"
 
 /*equation plane defined py 3 points*/

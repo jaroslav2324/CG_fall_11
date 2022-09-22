@@ -1,3 +1,5 @@
+#pragma once
+
 #include "SDL2/SDL.h"
 
 #define SHIFT_VALUE 25
