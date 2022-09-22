@@ -44,10 +44,22 @@ void ZBuffer::placeParallelepiped(Parallelepiped* par){
         // get surface Color
         Color surfaceColor = arrayOfParSurfaces[i].getSurfaceColor();
 
-        
+        // update zBuffer
+        for (int x = startRectX; x < endRectX; x++)
+            for (int y = startRectY; y < endRectY; y++){
 
-        // fill surface with color
-        
+                // if point with (x, y) coords does not belong to surface of parallelepiped
+                if ( ! arrayOfParSurfaces[i].isPointInsideSurface(x, y))
+                    continue;
+
+                double zCoord = arrayOfParSurfaces[i].getZ(x, y);
+
+                // if zCoord more than zCoord in zBuffer, replace zCoord and color
+                if (zCoord > zBuffer[x][y]){
+                    zBuffer[x][y] = zCoord;
+                    screenColorsArray[x][y] = surfaceColor;
+                }
+            }        
     }
 
 

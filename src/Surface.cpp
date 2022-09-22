@@ -123,3 +123,15 @@ bool flag;
 Color Surface::getSurfaceColor(){
     return color;
 }
+
+double Surface::getX(double y, double z){
+    equationPlane->findX(y, z);
+}
+
+double Surface::getY(double x, double z){
+    equationPlane->findY(x, z);
+}
+
+double Surface::getZ(double x, double y){
+    equationPlane->findZ(x, y);
+}

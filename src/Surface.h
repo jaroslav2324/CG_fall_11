@@ -16,6 +16,10 @@ public:
     SDL_Rect getCoveringSurfaceRect();
     Color getSurfaceColor();
 
+    double getX(double y, double z);
+    double getY(double x, double z);
+    double getZ(double x, double y);
+
 private:
 
     int numPoints;
