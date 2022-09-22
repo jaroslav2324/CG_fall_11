@@ -5,7 +5,29 @@ Pyramid::Pyramid(){
 
     pointsCoords = new Matrix(numVertexes, 4);
 
-    //TODO set coords of pyramid
+    // fill last row with 1(to multiply matrixes correctly)(4th dimension -_-)
+    for (int i = 0; i < numVertexes; i++)
+        pointsCoords->setElm(i, 3, 1);
+
+    // set x coords
+    pointsCoords->setElm(0, 0, 100);
+    pointsCoords->setElm(1, 0, 130);
+    pointsCoords->setElm(2, 0, 180);
+    pointsCoords->setElm(3, 0, 200);
+
+    // set y coords
+
+    pointsCoords->setElm(0, 1, 60);
+    pointsCoords->setElm(1, 1, 60);
+    pointsCoords->setElm(2, 1, 160);
+    pointsCoords->setElm(3, 1, 60);
+
+    // set z coords
+
+    pointsCoords->setElm(0, 2, 200);
+    pointsCoords->setElm(1, 2, 80);
+    pointsCoords->setElm(2, 2, 120);
+    pointsCoords->setElm(3, 2, 200);
 
     findCenter();
 }

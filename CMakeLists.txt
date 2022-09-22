@@ -7,7 +7,8 @@ project(KG_kurs)
 
 #set(SOURCE src/)
 
-add_executable(main src/main.cpp src/Matrix.cpp)
+add_executable(main src/main.cpp src/Matrix.cpp src/Color.cpp src/EquationPlane.cpp src/Parallelepiped.cpp src/Pyramid.cpp 
+src/rotationMatrixes.cpp src/Surface.cpp src/ZBuffer.cpp)
 
 #set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 #set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
