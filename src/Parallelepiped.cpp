@@ -248,3 +248,7 @@ Surface* Parallelepiped::createArrayOfSurfaces(){
 
     return surfaceArray;
 }
+
+int Parallelepiped::getNumSurfaces(){
+    return numSurfaces;
+}
