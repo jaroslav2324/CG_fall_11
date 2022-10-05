@@ -1,11 +1,14 @@
 #pragma once
 
-#include "SDL2/SDL.h"
+#include <cmath>
+
+#include "SDL.h"
 
 #include "settings.h"
 #include "Color.h"
 #include "Point.h"
 #include "EquationPlane.h"
+#include "Line.h"
 
 class Surface{
 public:
@@ -22,7 +25,13 @@ public:
     double getY(double x, double z);
     double getZ(double x, double y);
 
+    Point getCenter();
+
 private:
+
+    double findMaxZ();
+    double findMaxX();
+    double findMaxY();
 
     int numPoints;
     Color color;

@@ -23,7 +23,7 @@ public:
 
     void scale(double scaleCoefficient);
 
-    Surface* createArrayOfSurfaces();
+    Surface** createArrayOfSurfaces();
 
     int getNumSurfaces();
 
@@ -40,4 +40,7 @@ protected:
 
     void addToPointsCoordsMatrix(int numRow, int numCol, int addValue);
     void mulToPointsCoordsMatrix(int numRow, int numCol, int mulValue);
+
+    // fill pointArr, give indexes of point Surface from matrix of points in parallelepiped
+    void fillArrayOfSurfacePoints(Point* pointArr, int index1, int index2, int index3, int index4);
 };

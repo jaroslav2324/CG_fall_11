@@ -1,0 +1,17 @@
+#include "settings.h"
+
+class Line {
+
+public:
+	Line(double x1, double y1, double x2, double y2);
+
+	bool isPointRightFromLine(double x, double y);
+
+protected:
+	double coeffA = 0;
+	double coeffB = 0;
+	double coeffC = 0;
+
+	double findY(double x);
+	double findX(double y);
+};

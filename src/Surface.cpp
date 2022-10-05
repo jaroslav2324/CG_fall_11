@@ -32,7 +32,7 @@ Surface::~Surface(){
 
 SDL_Rect Surface::getCoveringSurfaceRect(){
 
-    double minX = INFINITY, minY = INFINITY, maxX = MINUS_INFINITY, maxY = MINUS_INFINITY;
+    double minX = INF, minY = INF, maxX = MINUS_INF, maxY = MINUS_INF;
 
     for (int i = 0; i < numPoints; i++){
 
@@ -47,77 +47,41 @@ SDL_Rect Surface::getCoveringSurfaceRect(){
             maxY = pointsArray[i].y;
     }
 
-    SDL_Rect rect;
+    SDL_Rect rect = {0, 0, 0, 0};
     rect.x = round(minX);
     rect.y = round(minY);
-    rect.w = rect.x + round(maxX - minX);
-    rect.h = rect.y + round(maxY - minY);
+    rect.w = round(maxX - minX);
+    rect.h = round(maxY - minY);
 
     return rect;
 }
 
 
+//only for convex polygons
 bool Surface::isPointInsideSurface(int x, int y){
-/*
-int pnpoly(int npol, float * xp, float * yp, float x, float y)
- {
-   int c = 0;
-   for (int i = 0, j = npol - 1; i < npol; j = i++) 
-   {
-     if ((((yp[i]<=y) && (y<yp[j])) || ((yp[j]<=y) && (y<yp[i]))) &&
-       (x > (xp[j] - xp[i]) * (y - yp[i]) / (yp[j] - yp[i]) + xp[i]))
-         c = !c;
-   }
-   return c;
- }
- */
-    //TODO check correctness
 
- int i1, i2, n, N, S, S1, S2, S3;
-bool flag;
+    int numLinesFromLeft = 0;
+    int numLinesFromRight = 0;
+ 
+    for (int indexFirstP = 0, indexSecondP = 1; indexFirstP < numPoints; indexFirstP++, indexSecondP = (indexFirstP + 1) % numPoints) {
 
- N = numPoints;
- for (n=0; n<N; n++){
+        // if horizontal beam do not pass through line
+        if ((pointsArray[indexFirstP].y < y && pointsArray[indexSecondP].y < y) ||
+            (pointsArray[indexFirstP].y > y && pointsArray[indexSecondP].y > y))
+            continue;
 
-    flag = false;
-    i1 = n < N-1 ? n + 1 : 0;
-    while (flag == false)
-    {
-        i2 = i1 + 1;
-        if (i2 >= N)
-            i2 = 0;
-        if (i2 == (n < N-1 ? n + 1 : 0))
-            break;
-        S = abs (pointsArray[i1].x * (pointsArray[i2].y - pointsArray[n ].y) +
-                    pointsArray[i2].x * (pointsArray[n ].y - pointsArray[i1].y) +
-                    pointsArray[n].x  * (pointsArray[i1].y - pointsArray[i2].y));
+        Line line(pointsArray[indexFirstP].x, pointsArray[indexFirstP].y, pointsArray[indexSecondP].x, pointsArray[indexSecondP].y);
 
-        S1 = abs (pointsArray[i1].x * (pointsArray[i2].y - y) +
-                    pointsArray[i2].x * (y       - pointsArray[i1].y) +
-                    x       * (pointsArray[i1].y - pointsArray[i2].y));
-
-        S2 = abs (pointsArray[n ].x * (pointsArray[i2].y - y) +
-                    pointsArray[i2].x * (y       - pointsArray[n ].y) +
-                    x       * (pointsArray[n ].y - pointsArray[i2].y));
-
-        S3 = abs (pointsArray[i1].x * (pointsArray[n ].y - y) +
-                    pointsArray[n ].x * (y       - pointsArray[i1].y) +
-                    x       * (pointsArray[i1].y - pointsArray[n ].y));
-
-        if (S == S1 + S2 + S3)
-        {
-            flag = true;
-            break;
-        }
-        i1 = i1 + 1;
-        if (i1 >= N)
-            i1 = 0;
+        if (line.isPointRightFromLine(x, y))
+            numLinesFromRight++;
+        else
+            numLinesFromLeft++;
     }
-    if (flag == false)
-        break;
-}
- return flag;
 
+    if (0 < numLinesFromLeft && 0 < numLinesFromRight && numLinesFromLeft == numLinesFromRight)
+        return true;
+    return false;
+    
 }
 
 Color Surface::getSurfaceColor(){
@@ -125,13 +89,71 @@ Color Surface::getSurfaceColor(){
 }
 
 double Surface::getX(double y, double z){
-    equationPlane->findX(y, z);
+
+    if (equationPlane->isParallelToOX())
+        return findMaxX();
+
+    return equationPlane->findX(y, z);
 }
 
 double Surface::getY(double x, double z){
-    equationPlane->findY(x, z);
+
+    if (equationPlane->isParallelToOY())
+        return findMaxY();
+
+    return equationPlane->findY(x, z);
 }
 
 double Surface::getZ(double x, double y){
-    equationPlane->findZ(x, y);
+
+    if (equationPlane->isParallelToOZ())
+        return findMaxZ();
+
+    return equationPlane->findZ(x, y);
+}
+
+double Surface::findMaxZ() {
+
+    double maxZ = pointsArray[0].z;
+    for (int i = 0; i < numPoints; i++)
+        if (pointsArray[i].z > maxZ)
+            maxZ = pointsArray[i].z;
+
+    return maxZ;
+}
+
+double Surface::findMaxX() {
+
+    double maxX = pointsArray[0].x;
+    for (int i = 0; i < numPoints; i++)
+        if (pointsArray[i].x > maxX)
+            maxX = pointsArray[i].x;
+
+    return maxX;
+}
+
+double Surface::findMaxY() {
+
+    double maxY = pointsArray[0].y;
+    for (int i = 0; i < numPoints; i++)
+        if (pointsArray[i].y > maxY)
+            maxY = pointsArray[i].y;
+
+    return maxY;
+}
+
+Point Surface::getCenter() {
+
+    double x = 0, y = 0, z = 0;
+    for (int i = 0; i < numPoints; i++) {
+        x += pointsArray[i].x;
+        y += pointsArray[i].y;
+        z += pointsArray[i].z;
+    }
+
+    x /= numPoints;
+    y /= numPoints;
+    z /= numPoints;
+
+    return Point(x, y, z);
 }

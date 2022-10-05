@@ -213,10 +213,7 @@ void Parallelepiped::scale(double scaleCoefficient){
     moveFromCenterCoords();
 }
 
-Surface* Parallelepiped::createArrayOfSurfaces(){
-
-    //TODO refactor
-    //FIXME change order of 
+Surface** Parallelepiped::createArrayOfSurfaces(){
 
     int numSurfaces = 6;
     int numSideSurfaces = 4;
@@ -239,97 +236,58 @@ Surface* Parallelepiped::createArrayOfSurfaces(){
     Point* arrayOfSurfacePoints = new Point[numPointsInSurface];
     Point p;
 
-    Surface* surfaceArray = new Surface[numSurfaces];
+    Surface** surfaceArray = new Surface*[numSurfaces];
 
-    // create top and bottom surfaces
+    int indexSurface = 0;
+
     // create surfaces of parallelepiped from matrix of points
-    for (int i = 0; i < numSurfaces - numSideSurfaces; i += 4){
-
-        //fill array of surface points for every surface
-        //TODO do not need numSurfaces in all palces here
-        int indexFirstPoint = i % numSurfaces;
-
-        p.x = pointsCoords->getElm(indexFirstPoint, 0);
-        p.y = pointsCoords->getElm(indexFirstPoint, 1);
-        p.z = pointsCoords->getElm(indexFirstPoint, 2);
-
-        arrayOfSurfacePoints[0] = p;
-
-        int indexSecondPoint = (i + 1) % numSurfaces;
-
-        p.x = pointsCoords->getElm(indexSecondPoint, 0);
-        p.y = pointsCoords->getElm(indexSecondPoint, 1);
-        p.z = pointsCoords->getElm(indexSecondPoint, 2);
-
-        arrayOfSurfacePoints[1] = p;
-
-        int indexThirdPoint = (i + 2) % numSurfaces;
-
-        p.x = pointsCoords->getElm(indexThirdPoint, 0);
-        p.y = pointsCoords->getElm(indexThirdPoint, 1);
-        p.z = pointsCoords->getElm(indexThirdPoint, 2);
-
-        arrayOfSurfacePoints[2] = p;
-
-        int indexFourthPoint = (i + 3) % numSurfaces;
-
-        p.x = pointsCoords->getElm(indexFourthPoint, 0);
-        p.y = pointsCoords->getElm(indexFourthPoint, 1);
-        p.z = pointsCoords->getElm(indexFourthPoint, 2);
-
-        arrayOfSurfacePoints[3] = p;
-
-        //create surface
-        surfaceArray[i] = Surface(numPointsInSurface, arrayOfSurfacePoints, surfacesColors[i]);
-    }
+    // 
+    // create top and bottom surfaces
+    fillArrayOfSurfacePoints(arrayOfSurfacePoints, 0, 1, 2, 3);
+    surfaceArray[indexSurface] = new Surface(numPointsInSurface, arrayOfSurfacePoints, surfacesColors[indexSurface]);
+    indexSurface++;
+    fillArrayOfSurfacePoints(arrayOfSurfacePoints, 4, 5, 6, 7);
+    surfaceArray[indexSurface] = new Surface(numPointsInSurface, arrayOfSurfacePoints, surfacesColors[indexSurface]);
+    indexSurface++;
 
     // create side surfaces
-    // create surfaces of parallelepiped from matrix of points
-    for (int i = 0; i < numSideSurfaces; i++){
+    fillArrayOfSurfacePoints(arrayOfSurfacePoints, 0, 1, 5, 4);
+    surfaceArray[indexSurface] = new Surface(numPointsInSurface, arrayOfSurfacePoints, surfacesColors[indexSurface]);
+    indexSurface++;
+    fillArrayOfSurfacePoints(arrayOfSurfacePoints, 1, 2, 6, 5);
+    surfaceArray[indexSurface] = new Surface(numPointsInSurface, arrayOfSurfacePoints, surfacesColors[indexSurface]);
+    indexSurface++;
+    fillArrayOfSurfacePoints(arrayOfSurfacePoints, 2, 3, 7, 6);
+    surfaceArray[indexSurface] = new Surface(numPointsInSurface, arrayOfSurfacePoints, surfacesColors[indexSurface]);
+    indexSurface++;
+    fillArrayOfSurfacePoints(arrayOfSurfacePoints, 3, 0, 4, 7);
+    surfaceArray[indexSurface] = new Surface(numPointsInSurface, arrayOfSurfacePoints, surfacesColors[indexSurface]);
+    indexSurface++;
 
-        //fill array of surface points for every surface
-        int indexFirstPoint = i % numSurfaces;
 
-        p.x = pointsCoords->getElm(indexFirstPoint, 0);
-        p.y = pointsCoords->getElm(indexFirstPoint, 1);
-        p.z = pointsCoords->getElm(indexFirstPoint, 2);
-
-        arrayOfSurfacePoints[0] = p;
-
-        int indexSecondPoint = (i + 1) % numSurfaces;
-
-        p.x = pointsCoords->getElm(indexSecondPoint, 0);
-        p.y = pointsCoords->getElm(indexSecondPoint, 1);
-        p.z = pointsCoords->getElm(indexSecondPoint, 2);
-
-        arrayOfSurfacePoints[1] = p;
-
-        int indexThirdPoint = (i + 4) % numSurfaces;
-
-        p.x = pointsCoords->getElm(indexThirdPoint, 0);
-        p.y = pointsCoords->getElm(indexThirdPoint, 1);
-        p.z = pointsCoords->getElm(indexThirdPoint, 2);
-
-        arrayOfSurfacePoints[2] = p;
-
-        int indexFourthPoint = (i + 5) % numSurfaces;
-
-        p.x = pointsCoords->getElm(indexFourthPoint, 0);
-        p.y = pointsCoords->getElm(indexFourthPoint, 1);
-        p.z = pointsCoords->getElm(indexFourthPoint, 2);
-
-        arrayOfSurfacePoints[3] = p;
-
-        //create surface
-        surfaceArray[i] = Surface(numPointsInSurface, arrayOfSurfacePoints, surfacesColors[i]);
-    }
-
-    delete surfacesColors;
-    delete arrayOfSurfacePoints;
+    delete[] surfacesColors;
+    delete[] arrayOfSurfacePoints;
 
     return surfaceArray;
 }
 
 int Parallelepiped::getNumSurfaces(){
     return numSurfaces;
+}
+
+void Parallelepiped::fillArrayOfSurfacePoints(Point* pointArr, int index1, int index2, int index3, int index4) {
+
+    const int numPointsInSurface = 4;
+    int indexesArr[numPointsInSurface] = { index1, index2, index3, index4 };
+    Point p;
+
+    for (int i = 0; i < numPointsInSurface; i++) {
+        int index = indexesArr[i];
+
+        p.x = pointsCoords->getElm(index, 0);
+        p.y = pointsCoords->getElm(index, 1);
+        p.z = pointsCoords->getElm(index, 2);
+
+        pointArr[i] = p;
+    }
 }

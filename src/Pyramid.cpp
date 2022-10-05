@@ -198,7 +198,7 @@ void Pyramid::scale(double scaleCoefficient){
     moveFromCenterCoords();
 }
 
-Surface* Pyramid::createArrayOfSurfaces(){
+Surface** Pyramid::createArrayOfSurfaces(){
 
     //TODO refactor
 
@@ -218,7 +218,9 @@ Surface* Pyramid::createArrayOfSurfaces(){
     Point* arrayOfSurfacePoints = new Point[numPointsInSurface];
     Point p;
 
-    Surface* surfaceArray = new Surface[numSurfaces];
+    Surface** surfaceArray = new Surface * [numSurfaces];
+
+    int indexSurface = 0;
 
 
     // create surfaces of pyramid from matrix of points
@@ -250,11 +252,12 @@ Surface* Pyramid::createArrayOfSurfaces(){
         arrayOfSurfacePoints[2] = p;
 
         //create surface
-        surfaceArray[i] = Surface(numPointsInSurface, arrayOfSurfacePoints, surfacesColors[i]);
+        surfaceArray[indexSurface] = new Surface(numPointsInSurface, arrayOfSurfacePoints, surfacesColors[indexSurface]);
+        indexSurface++;
     }
 
-    delete surfacesColors;
-    delete arrayOfSurfacePoints;
+    delete[] surfacesColors;
+    delete[] arrayOfSurfacePoints;
 
     return surfaceArray;
 }

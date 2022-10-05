@@ -5,11 +5,11 @@ Matrix::Matrix(const int numRows, const int numCols){
     Matrix::numRows = numRows;
     Matrix::numCols = numCols;
 
-	matrix = new double*[numCols];
+	matrix = new double*[numRows];
 
-    for (int i = 0; i < numCols; i++){
-        matrix[i] = new double[numRows];
-        for (int j = 0; j < numRows; j++)
+    for (int i = 0; i < numRows; i++){
+        matrix[i] = new double[numCols];
+        for (int j = 0; j < numCols; j++)
             matrix[i][j] = 0;
     }
 }
@@ -19,11 +19,11 @@ Matrix::Matrix(const int numRows, const int numCols, double** initialisingArray)
     Matrix::numRows = numRows;
     Matrix::numCols = numCols;
 
-    Matrix::matrix = new double*[numCols];
+    Matrix::matrix = new double*[numRows];
 
-    for (int i = 0; i < numCols; i++){
-        Matrix::matrix[i] = new double[numRows];
-        for (int j = 0; j < numRows; j++)
+    for (int i = 0; i < numRows; i++){
+        Matrix::matrix[i] = new double[numCols];
+        for (int j = 0; j < numCols; j++)
             Matrix::matrix[i][j] = initialisingArray[i][j];
     }
 }
@@ -34,11 +34,11 @@ Matrix::Matrix(const Matrix& matrix){
     numRows = matrix.numRows;
     numCols = matrix.numCols;
 
-    Matrix::matrix = new double*[numCols];
+    Matrix::matrix = new double*[numRows];
 
-    for (int i = 0; i < numCols; i++){
-        Matrix::matrix[i] = new double[numRows];
-        for (int j = 0; j < numRows; j++)
+    for (int i = 0; i < numRows; i++){
+        Matrix::matrix[i] = new double[numCols];
+        for (int j = 0; j < numCols; j++)
             Matrix::matrix[i][j] = matrix.matrix[i][j];
     }
 }

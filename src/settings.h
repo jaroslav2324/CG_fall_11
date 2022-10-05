@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SDL2/SDL.h"
+#include "SDL.h"
 
 #define SHIFT_VALUE 25
 #define ROTATE_VALUE double(15) / 180 * M_PI
@@ -10,5 +10,5 @@
 #define SCREEN_HEIGHT 480
 #define SCREEN_WIDTH 640
 
-#define MINUS_INFINITY -4000000
-#define INFINITY 4000000
+#define MINUS_INF -4000000
+#define INF 4000000

@@ -68,3 +68,24 @@ double EquationPlane::findZ(double x, double y){
     double z = - ((coeffA * x + coeffB * y + coeffD) / coeffB);
     return z;
 }
+
+bool EquationPlane::isParallelToOX() {
+
+    if (coeffA == 0)
+        return true;
+    return false;
+}
+
+bool EquationPlane::isParallelToOY() {
+
+    if (coeffB == 0)
+        return true;
+    return false;
+}
+
+bool EquationPlane::isParallelToOZ() {
+
+    if (coeffC == 0)
+        return true;
+    return false;
+}

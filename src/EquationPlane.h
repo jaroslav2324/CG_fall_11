@@ -18,6 +18,10 @@ public:
     double findY(double x, double z);
     double findZ(double x, double y);
 
+    bool isParallelToOZ();
+    bool isParallelToOX();
+    bool isParallelToOY();
+
 private:
 
     double coeffA;

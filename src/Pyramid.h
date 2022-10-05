@@ -22,7 +22,7 @@ public:
 
     void scale(double scaleCoefficient);
 
-    Surface* createArrayOfSurfaces();
+    Surface** createArrayOfSurfaces();
 
     int getNumSurfaces();
 
