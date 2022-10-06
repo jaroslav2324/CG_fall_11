@@ -1,5 +1,6 @@
 #include "settings.h"
 
+// geometrical line
 class Line {
 
 public:
@@ -7,11 +8,11 @@ public:
 
 	bool isPointRightFromLine(double x, double y);
 
+	double findY(double x);
+	double findX(double y);
+
 protected:
 	double coeffA = 0;
 	double coeffB = 0;
 	double coeffC = 0;
-
-	double findY(double x);
-	double findX(double y);
 };

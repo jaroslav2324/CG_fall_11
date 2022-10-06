@@ -24,7 +24,7 @@ private:
     void placeParallelepiped(Parallelepiped* par);
     void placePyramid(Pyramid* pyr);
 
-    void recursiveFillVectorOfCoords(SDL_Rect& rectAround, std::vector<std::pair<int, int>>& pointsVector, int startX, int startY);
+    void recursiveFillVectorOfCoords(Surface* surface, std::vector<std::pair<int, int>>& pointsVector, int startX, int startY);
 
     Color*** screenColorsArray; // [SCREEN_HEIGHT] [SCREEN_WIDTH] ;
     double*** zBuffer; // [SCREEN_HEIGHT] [SCREEN_WIDTH] ;

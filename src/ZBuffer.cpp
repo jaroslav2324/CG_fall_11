@@ -59,21 +59,6 @@ void ZBuffer::placeParallelepiped(Parallelepiped* par) {
 
         // copy surface to zBuffer
 
-        //TODO change comment
-        // find starting positions to change part of zBuffer instead of replacing all values in zBuffer
-
-        if (startRectX < 0)
-            startRectX = 0;
-
-        if (startRectY < 0)
-            startRectY = 0;
-
-        if (SCREEN_WIDTH < endRectX)
-            endRectX = SCREEN_WIDTH;
-
-        if (SCREEN_HEIGHT < endRectY)
-            endRectY = SCREEN_HEIGHT;
-
         // get surface Color
         Color surfaceColor = arrayOfParSurfaces[i]->getSurfaceColor();
 
@@ -81,35 +66,13 @@ void ZBuffer::placeParallelepiped(Parallelepiped* par) {
 
         // create border points
 
-        if (startRectX == endRectX) {
-
-            for (int y = startRectY; y < endRectY; y++)
-                pointsVector.push_back(std::make_pair(startRectX, y));
-        }
-        else {
-            for (int y = startRectY; y < endRectY; y++) {
-                pointsVector.push_back(std::make_pair(startRectX, y));
-                pointsVector.push_back(std::make_pair(endRectX - 1, y));
-        }
-        }
-
-        if (startRectY == endRectY) {
-            for (int x = startRectX; x < endRectX; x++)
-                pointsVector.push_back(std::make_pair(x, startRectY));
-        }
-        else {
-
-            for (int x = startRectX; x < endRectX; x++) {
-                pointsVector.push_back(std::make_pair(x, startRectY));
-                pointsVector.push_back(std::make_pair(x, endRectY - 1));
-            }
-        }
+        arrayOfParSurfaces[i]->addBorderLinesPointsToVector(pointsVector);
 
         // find center
         Point center = arrayOfParSurfaces[i]->getCenter();
 
         // recursive filling
-        recursiveFillVectorOfCoords(rectAroundSurface, pointsVector, center.x, center.y);
+        recursiveFillVectorOfCoords(arrayOfParSurfaces[i], pointsVector, center.x, center.y);
 
         // update zBuffer
         for (auto& point : pointsVector) {
@@ -191,20 +154,6 @@ void ZBuffer::placePyramid(Pyramid* pyr){
 
         // copy surface to zBuffer
 
-        //TODO change comment
-        // find starting positions to change part of zBuffer instead of replacing all values in zBuffer
-        if (startRectX < 0)
-            startRectX = 0;
-
-        if (startRectY < 0)
-            startRectY = 0;
-
-        if (SCREEN_WIDTH < endRectX)
-            endRectX = SCREEN_WIDTH;
-
-        if (SCREEN_HEIGHT < endRectY)
-            endRectY = SCREEN_HEIGHT;
-
         // get surface Color
         Color surfaceColor = arrayOfParSurfaces[i]->getSurfaceColor();
 
@@ -212,35 +161,13 @@ void ZBuffer::placePyramid(Pyramid* pyr){
 
         // create border points
 
-        if (startRectX == endRectX) {
-
-            for (int y = startRectY; y < endRectY; y++)
-                pointsVector.push_back(std::make_pair(startRectX, y));
-        }
-        else {
-            for (int y = startRectY; y < endRectY; y++) {
-                pointsVector.push_back(std::make_pair(startRectX, y));
-                pointsVector.push_back(std::make_pair(endRectX - 1, y));
-            }
-        }
-
-        if (startRectY == endRectY) {
-            for (int x = startRectX; x < endRectX; x++)
-                pointsVector.push_back(std::make_pair(x, startRectY));
-        }
-        else {
-
-            for (int x = startRectX; x < endRectX; x++) {
-                pointsVector.push_back(std::make_pair(x, startRectY));
-                pointsVector.push_back(std::make_pair(x, endRectY - 1));
-            }
-        }
+        arrayOfParSurfaces[i]->addBorderLinesPointsToVector(pointsVector);
 
         // find center
         Point center = arrayOfParSurfaces[i]->getCenter();
 
         // recursive filling
-        recursiveFillVectorOfCoords(rectAroundSurface, pointsVector, center.x, center.y);
+        recursiveFillVectorOfCoords(arrayOfParSurfaces[i], pointsVector, center.x, center.y);
 
         // update zBuffer
         for (auto& point : pointsVector) {
@@ -283,7 +210,7 @@ void ZBuffer::renderBuffer(SDL_Renderer* renderer, Parallelepiped* par, Pyramid*
 
     clearZBuffer();
 
-    //placeParallelepiped(par);
+    placeParallelepiped(par);
     placePyramid(pyr);
 
     for (int x = 0; x < SCREEN_HEIGHT; x++)
@@ -296,25 +223,24 @@ void ZBuffer::renderBuffer(SDL_Renderer* renderer, Parallelepiped* par, Pyramid*
     SDL_RenderPresent(renderer);
 }
 
-void ZBuffer::recursiveFillVectorOfCoords(SDL_Rect& rectAround, std::vector<std::pair<int, int>>& pointsVector, int startX, int startY) {
+void ZBuffer::recursiveFillVectorOfCoords(Surface* surface, std::vector<std::pair<int, int>>& pointsVector, int startX, int startY) {
 
-    if (startX < rectAround.x || rectAround.x + rectAround.w < startX ||
-        startY < rectAround.y || rectAround.y + rectAround.h < startY)
+    if (! surface->isPointInsideSurface(startX, startY))
         return;
 
     pointsVector.push_back(std::make_pair(startX, startY));
 
     if (! (std::find(pointsVector.begin(), pointsVector.end(), std::make_pair(startX, startY + 1)) != pointsVector.end()))
-        recursiveFillVectorOfCoords(rectAround, pointsVector, startX, startY + 1);
+        recursiveFillVectorOfCoords(surface, pointsVector, startX, startY + 1);
 
     if (! (std::find(pointsVector.begin(), pointsVector.end(), std::make_pair(startX, startY - 1)) != pointsVector.end()))
-        recursiveFillVectorOfCoords(rectAround, pointsVector, startX, startY - 1);
+        recursiveFillVectorOfCoords(surface, pointsVector, startX, startY - 1);
 
     if (! (std::find(pointsVector.begin(), pointsVector.end(), std::make_pair(startX + 1, startY)) != pointsVector.end()))
-        recursiveFillVectorOfCoords(rectAround, pointsVector, startX + 1, startY);
+        recursiveFillVectorOfCoords(surface, pointsVector, startX + 1, startY);
 
     if (! (std::find(pointsVector.begin(), pointsVector.end(), std::make_pair(startX - 1, startY)) != pointsVector.end()))
-        recursiveFillVectorOfCoords(rectAround, pointsVector, startX - 1, startY);
+        recursiveFillVectorOfCoords(surface, pointsVector, startX - 1, startY);
 
     return;
 }

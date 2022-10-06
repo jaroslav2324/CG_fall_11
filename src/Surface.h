@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cmath>
+#include <vector>
 
 #include "SDL.h"
 
@@ -9,6 +10,7 @@
 #include "Point.h"
 #include "EquationPlane.h"
 #include "Line.h"
+#include "LineSegment.h"
 
 class Surface{
 public:
@@ -26,6 +28,8 @@ public:
     double getZ(double x, double y);
 
     Point getCenter();
+
+    void addBorderLinesPointsToVector(std::vector<std::pair<int, int>>& vec);
 
 private:
 

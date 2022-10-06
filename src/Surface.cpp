@@ -157,3 +157,19 @@ Point Surface::getCenter() {
 
     return Point(x, y, z);
 }
+
+void Surface::addBorderLinesPointsToVector(std::vector<std::pair<int, int>>& vec) {
+
+    int numSegments = numPoints;
+
+    for (int i = 0, j = 1; i < numSegments; i++, j = (i + 1) % numSegments) {
+
+        int x1 = pointsArray[i].x;
+        int y1 = pointsArray[i].y;
+        int x2 = pointsArray[j].x;
+        int y2 = pointsArray[j].y;
+
+        LineSegment seg(x1, y1, x2, y2);
+        seg.addAllSegmentPointsToVector(vec);
+    }
+}

@@ -14,7 +14,7 @@ include_directories(${SDL2_INCLUDE_DIR})
 set(SOURCE_FILES src/main.cpp src/Matrix.cpp src/Color.cpp src/EquationPlane.cpp src/Parallelepiped.cpp src/Pyramid.cpp 
 src/rotationMatrixes.cpp src/Surface.cpp src/ZBuffer.cpp src/Line.cpp)
 
-add_executable(main ${SOURCE_FILES})
+add_executable(main ${SOURCE_FILES} "src/LineSegment.cpp")
 target_link_libraries(main ${SDL2_LIBRARY} )
 
 set_target_properties(main PROPERTIES LINK_FLAGS "/STACK:10000000")
