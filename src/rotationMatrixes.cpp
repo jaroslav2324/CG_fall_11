@@ -16,7 +16,7 @@ Matrix createXRotationMatrix(double rotationValue){
     rotationMatrixX.setElm(2, 0, 0); rotationMatrixX.setElm(2, 1, -sin(rotationValue)); rotationMatrixX.setElm(2, 2, cos(rotationValue));
     rotationMatrixX.setElm(2, 3, 0);
     // fourth row
-    rotationMatrixX.setElm(0, 0, 0); rotationMatrixX.setElm(0, 1, 0); rotationMatrixX.setElm(0, 2, 0); rotationMatrixX.setElm(0, 3, 1);
+    rotationMatrixX.setElm(3, 0, 0); rotationMatrixX.setElm(3, 1, 0); rotationMatrixX.setElm(3, 2, 0); rotationMatrixX.setElm(3, 3, 1);
 
     return rotationMatrixX;
 }
@@ -36,7 +36,7 @@ Matrix createYRotationMatrix(double rotationValue){
     rotationMatrixY.setElm(2, 0, -sin(rotationValue)); rotationMatrixY.setElm(2, 1, 0); rotationMatrixY.setElm(2, 2, cos(rotationValue));
     rotationMatrixY.setElm(2, 3, 0);
     // fourth row
-    rotationMatrixY.setElm(0, 0, 0); rotationMatrixY.setElm(0, 1, 0); rotationMatrixY.setElm(0, 2, 0); rotationMatrixY.setElm(0, 3, 1);
+    rotationMatrixY.setElm(3, 0, 0); rotationMatrixY.setElm(3, 1, 0); rotationMatrixY.setElm(3, 2, 0); rotationMatrixY.setElm(3, 3, 1);
 
     return rotationMatrixY;
 }
@@ -56,7 +56,7 @@ Matrix createZRotationMatrix(double rotationValue){
     // third row
     rotationMatrixY.setElm(2, 0, 0); rotationMatrixY.setElm(2, 1, 0); rotationMatrixY.setElm(2, 2, 1); rotationMatrixY.setElm(2, 3, 0);
     // fourth row
-    rotationMatrixY.setElm(0, 0, 0); rotationMatrixY.setElm(0, 1, 0); rotationMatrixY.setElm(0, 2, 0); rotationMatrixY.setElm(0, 3, 1);
+    rotationMatrixY.setElm(3, 0, 0); rotationMatrixY.setElm(3, 1, 0); rotationMatrixY.setElm(3, 2, 0); rotationMatrixY.setElm(3, 3, 1);
 
     return rotationMatrixY;
 }

@@ -1,5 +1,6 @@
 
 #include <vector>
+#include <cstdlib>
 
 // line segment on the screen
 class LineSegment {

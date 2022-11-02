@@ -81,8 +81,8 @@ void Matrix::operator=(const Matrix& secondMatrix){
         ;
         //TODO throw
 
-    for (int i = 0; i < numCols; i++)
-        for (int j = 0; j < numRows; j++)
+    for (int i = 0; i < numRows; i++)
+        for (int j = 0; j < numCols; j++)
             Matrix::matrix[i][j] = secondMatrix.matrix[i][j];
     
 }
