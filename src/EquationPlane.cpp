@@ -65,7 +65,7 @@ double EquationPlane::findY(double x, double z){
 }
 
 double EquationPlane::findZ(double x, double y){
-    double z = - ((coeffA * x + coeffB * y + coeffD) / coeffB);
+    double z = - ((coeffA * x + coeffB * y + coeffD) / coeffC);
     return z;
 }
 

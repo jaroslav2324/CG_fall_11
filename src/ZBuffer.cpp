@@ -92,7 +92,8 @@ void ZBuffer::placeParallelepiped(Parallelepiped* par) {
                 screenColorsArray[y][x]->b = surfaceColor.b;
                 screenColorsArray[y][x]->a = surfaceColor.a;
             }
-        }
+
+        }     
 
     }
     for (int i = 0; i < numSurfaces; i++)
