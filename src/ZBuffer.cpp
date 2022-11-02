@@ -80,54 +80,20 @@ void ZBuffer::placeParallelepiped(Parallelepiped* par) {
             int x = point.first;
             int y = point.second;
 
+            if (x < 0 || y < 0 || x >= SCREEN_WIDTH || y >= SCREEN_HEIGHT)
+                continue;
+
             double zCoord = arrayOfParSurfaces[i]->getZ(x, y);
 
-            if (zCoord > *zBuffer[x][y]) {
-                *zBuffer[x][y] = zCoord;
-                screenColorsArray[x][y]->r = surfaceColor.r;
-                screenColorsArray[x][y]->g = surfaceColor.g;
-                screenColorsArray[x][y]->b = surfaceColor.b;
-                screenColorsArray[x][y]->a = surfaceColor.a;
+            if (zCoord > *zBuffer[y][x]) {
+                *zBuffer[y][x] = zCoord;
+                screenColorsArray[y][x]->r = surfaceColor.r;
+                screenColorsArray[y][x]->g = surfaceColor.g;
+                screenColorsArray[y][x]->b = surfaceColor.b;
+                screenColorsArray[y][x]->a = surfaceColor.a;
             }
         }
-        /*
 
-        for (int x = startRectX; x < endRectX; x++)
-            for (int y = startRectY; y < endRectY; y++){
-
-                // render borders
-                if (x == startRectX || y == startRectY) {
-                    SDL_SetRenderDrawColor(ren, surfaceColor.r, surfaceColor.g, surfaceColor.b, surfaceColor.a);
-                    SDL_RenderDrawPoint(ren, x, y);
-                    SDL_RenderPresent(ren);
-                    continue;
-                }
-
-                // if point with (x, y) coords does not belong to surface of parallelepiped
-                if (!arrayOfParSurfaces[i]->isPointInsideSurface(x, y)) {
-                    SDL_SetRenderDrawColor(ren, 255, 255, 255, 255);
-                    SDL_RenderDrawPoint(ren, x, y);
-                    SDL_RenderPresent(ren);
-                    continue;
-                }
-
-                double zCoord = arrayOfParSurfaces[i]->getZ(x, y);
-
-                // if zCoord more than zCoord in zBuffer, replace zCoord and color
-                if (zCoord > *zBuffer[x][y]){
-                    *zBuffer[x][y] = zCoord;
-                    screenColorsArray[x][y]->r = surfaceColor.r;
-                    screenColorsArray[x][y]->g = surfaceColor.g;
-                    screenColorsArray[x][y]->b = surfaceColor.b;
-                    screenColorsArray[x][y]->a = surfaceColor.a;
-                }
-
-                SDL_SetRenderDrawColor(ren, surfaceColor.r, surfaceColor.g, surfaceColor.b, surfaceColor.a);
-                SDL_RenderDrawPoint(ren, x, y);
-                SDL_RenderPresent(ren);
-            }
-    }
-*/
     }
     for (int i = 0; i < numSurfaces; i++)
         delete arrayOfParSurfaces[i];
@@ -175,14 +141,17 @@ void ZBuffer::placePyramid(Pyramid* pyr){
             int x = point.first;
             int y = point.second;
 
+            if (x < 0 || y < 0 || x >= SCREEN_WIDTH || y >= SCREEN_HEIGHT)
+                continue;
+
             double zCoord = arrayOfParSurfaces[i]->getZ(x, y);
 
-            if (zCoord > *zBuffer[x][y]) {
-                *zBuffer[x][y] = zCoord;
-                screenColorsArray[x][y]->r = surfaceColor.r;
-                screenColorsArray[x][y]->g = surfaceColor.g;
-                screenColorsArray[x][y]->b = surfaceColor.b;
-                screenColorsArray[x][y]->a = surfaceColor.a;
+            if (zCoord > *zBuffer[y][x]) {
+                *zBuffer[y][x] = zCoord;
+                screenColorsArray[y][x]->r = surfaceColor.r;
+                screenColorsArray[y][x]->g = surfaceColor.g;
+                screenColorsArray[y][x]->b = surfaceColor.b;
+                screenColorsArray[y][x]->a = surfaceColor.a;
             }
         }
     }
@@ -213,9 +182,9 @@ void ZBuffer::renderBuffer(SDL_Renderer* renderer, Parallelepiped* par, Pyramid*
     placeParallelepiped(par);
     placePyramid(pyr);
 
-    for (int x = 0; x < SCREEN_HEIGHT; x++)
-        for (int y = 0; y < SCREEN_WIDTH; y++){
-            Color* color = screenColorsArray[x][y];
+    for (int y = 0; y < SCREEN_HEIGHT; y++)
+        for (int x = 0; x < SCREEN_WIDTH; x++){
+            Color* color = screenColorsArray[y][x];
             SDL_SetRenderDrawColor(renderer, color->r, color->g, color->b, color->a);
             SDL_RenderDrawPoint(renderer, x, y);
         }

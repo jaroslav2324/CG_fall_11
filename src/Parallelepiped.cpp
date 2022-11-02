@@ -115,7 +115,7 @@ void Parallelepiped::moveFromCenterCoords(){
 
 }
 
-void Parallelepiped::addToPointsCoordsMatrix(int numRow, int numCol, int addValue){
+void Parallelepiped::addToPointsCoordsMatrix(int numRow, int numCol, double addValue){
 
     //TODO check numRow, numCol
 
@@ -124,7 +124,7 @@ void Parallelepiped::addToPointsCoordsMatrix(int numRow, int numCol, int addValu
     pointsCoords->setElm(numRow, numCol, coord);
 }
 
-void Parallelepiped::mulToPointsCoordsMatrix(int numRow, int numCol, int mulValue){
+void Parallelepiped::mulToPointsCoordsMatrix(int numRow, int numCol, double mulValue){
 
     //TODO check numRow, numCol
 

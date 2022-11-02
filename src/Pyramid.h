@@ -37,6 +37,6 @@ protected:
 	void moveToCenterCoords();
 	void moveFromCenterCoords();
 
-    void addToPointsCoordsMatrix(int numRow, int numCol, int addValue);
-    void mulToPointsCoordsMatrix(int numRow, int numCol, int mulValue);
+    void addToPointsCoordsMatrix(int numRow, int numCol, double addValue);
+    void mulToPointsCoordsMatrix(int numRow, int numCol, double mulValue);
 };

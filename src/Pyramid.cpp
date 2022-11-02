@@ -100,7 +100,7 @@ void Pyramid::moveFromCenterCoords(){
 
 }
 
-void Pyramid::addToPointsCoordsMatrix(int numRow, int numCol, int addValue){
+void Pyramid::addToPointsCoordsMatrix(int numRow, int numCol, double addValue){
 
     //TODO check numRow, numCol
 
@@ -109,7 +109,7 @@ void Pyramid::addToPointsCoordsMatrix(int numRow, int numCol, int addValue){
     pointsCoords->setElm(numRow, numCol, coord);
 }
 
-void Pyramid::mulToPointsCoordsMatrix(int numRow, int numCol, int mulValue){
+void Pyramid::mulToPointsCoordsMatrix(int numRow, int numCol, double mulValue){
 
     //TODO check numRow, numCol
 
