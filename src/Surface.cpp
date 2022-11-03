@@ -158,6 +158,21 @@ Point Surface::getCenter() {
     return Point(x, y, z);
 }
 
+Point Surface::getPoint(int index)
+{
+    if (index < 0 || index >= numPoints) {
+        // panic!
+        ;
+    }
+
+    return Point(pointsArray[index]);
+}
+
+int Surface::getNumPoints()
+{
+    return numPoints;
+}
+
 void Surface::addBorderLinesPointsToVector(std::vector<std::pair<int, int>>& vec) {
 
     int numSegments = numPoints;

@@ -14,10 +14,10 @@ Application::Application() {
     Parallelepiped* par = new Parallelepiped();
     Pyramid* pyr = new Pyramid();
 
+    Point* lightSource = new Point(100, 350, 750);
 
-    buffer.renderBuffer(renderer, par, pyr);
 
-    //SDL_Delay(20000);
+    buffer.renderBuffer(renderer, par, pyr, lightSource);
 
 
     while(true) {
@@ -32,6 +32,7 @@ Application::Application() {
 
                 delete par;
                 delete pyr;
+                delete lightSource;
 
                 SDL_DestroyRenderer(renderer);
                 SDL_DestroyWindow(window);
@@ -162,7 +163,8 @@ Application::Application() {
             }
 
             if (changed)
-                buffer.renderBuffer(renderer, par, pyr);
+                buffer.renderBuffer(renderer, par, pyr, lightSource);
+            
         }
     }
 }

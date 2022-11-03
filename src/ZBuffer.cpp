@@ -44,61 +44,12 @@ void ZBuffer::placeParallelepiped(Parallelepiped* par) {
     Surface** arrayOfParSurfaces = par->createArrayOfSurfaces();
     int numSurfaces = par->getNumSurfaces();
 
-    for (int i = 0; i < numSurfaces; i++) {
+    for (int i = 0; i < numSurfaces; i++) 
+        placeSurfaceInZBuffer(arrayOfParSurfaces[i]);
 
-        SDL_Rect rectAroundSurface = arrayOfParSurfaces[i]->getCoveringSurfaceRect();
-
-        int startRectX = rectAroundSurface.x;
-        int startRectY = rectAroundSurface.y;
-        int endRectX = rectAroundSurface.x + rectAroundSurface.w;
-        int endRectY = rectAroundSurface.y + rectAroundSurface.h;
-
-        // if surface is not in the window on the screen
-        if (endRectX < 0 || endRectY < 0 || SCREEN_WIDTH < startRectX || SCREEN_HEIGHT < startRectY)
-            continue;
-
-        // copy surface to zBuffer
-
-        // get surface Color
-        Color surfaceColor = arrayOfParSurfaces[i]->getSurfaceColor();
-
-        std::vector<std::pair<int, int>> pointsVector;
-
-        // create border points
-
-        arrayOfParSurfaces[i]->addBorderLinesPointsToVector(pointsVector);
-
-        // find center
-        Point center = arrayOfParSurfaces[i]->getCenter();
-
-        // recursive filling
-        recursiveFillVectorOfCoords(arrayOfParSurfaces[i], pointsVector, center.x, center.y);
-
-        // update zBuffer
-        for (auto& point : pointsVector) {
-
-            int x = point.first;
-            int y = point.second;
-
-            if (x < 0 || y < 0 || x >= SCREEN_WIDTH || y >= SCREEN_HEIGHT)
-                continue;
-
-            double zCoord = arrayOfParSurfaces[i]->getZ(x, y);
-
-            if (zCoord > *zBuffer[y][x]) {
-                *zBuffer[y][x] = zCoord;
-                screenColorsArray[y][x]->r = surfaceColor.r;
-                screenColorsArray[y][x]->g = surfaceColor.g;
-                screenColorsArray[y][x]->b = surfaceColor.b;
-                screenColorsArray[y][x]->a = surfaceColor.a;
-            }
-
-        }     
-
-    }
     for (int i = 0; i < numSurfaces; i++)
         delete arrayOfParSurfaces[i];
-    delete arrayOfParSurfaces;
+    delete[] arrayOfParSurfaces;
 }
 
 void ZBuffer::placePyramid(Pyramid* pyr){
@@ -106,60 +57,64 @@ void ZBuffer::placePyramid(Pyramid* pyr){
     Surface** arrayOfParSurfaces = pyr->createArrayOfSurfaces();
     int numSurfaces = pyr->getNumSurfaces();
 
-    for (int i = 0; i < numSurfaces; i++) {
-
-        SDL_Rect rectAroundSurface = arrayOfParSurfaces[i]->getCoveringSurfaceRect();
-
-        int startRectX = rectAroundSurface.x;
-        int startRectY = rectAroundSurface.y;
-        int endRectX = rectAroundSurface.x + rectAroundSurface.w;
-        int endRectY = rectAroundSurface.y + rectAroundSurface.h;
-
-        // if surface is not in the window on the screen
-        if (endRectX < 0 || endRectY < 0 || SCREEN_WIDTH < startRectX || SCREEN_HEIGHT < startRectY)
-            continue;
-
-        // copy surface to zBuffer
-
-        // get surface Color
-        Color surfaceColor = arrayOfParSurfaces[i]->getSurfaceColor();
-
-        std::vector<std::pair<int, int>> pointsVector;
-
-        // create border points
-
-        arrayOfParSurfaces[i]->addBorderLinesPointsToVector(pointsVector);
-
-        // find center
-        Point center = arrayOfParSurfaces[i]->getCenter();
-
-        // recursive filling
-        recursiveFillVectorOfCoords(arrayOfParSurfaces[i], pointsVector, center.x, center.y);
-
-        // update zBuffer
-        for (auto& point : pointsVector) {
-
-            int x = point.first;
-            int y = point.second;
-
-            if (x < 0 || y < 0 || x >= SCREEN_WIDTH || y >= SCREEN_HEIGHT)
-                continue;
-
-            double zCoord = arrayOfParSurfaces[i]->getZ(x, y);
-
-            if (zCoord > *zBuffer[y][x]) {
-                *zBuffer[y][x] = zCoord;
-                screenColorsArray[y][x]->r = surfaceColor.r;
-                screenColorsArray[y][x]->g = surfaceColor.g;
-                screenColorsArray[y][x]->b = surfaceColor.b;
-                screenColorsArray[y][x]->a = surfaceColor.a;
-            }
-        }
-    }
-
+    for (int i = 0; i < numSurfaces; i++) 
+        placeSurfaceInZBuffer(arrayOfParSurfaces[i]);
+    
     for (int i = 0; i < numSurfaces; i++)
         delete arrayOfParSurfaces[i];
-    delete arrayOfParSurfaces;
+    delete[] arrayOfParSurfaces;
+}
+
+void ZBuffer::placeSurfaceInZBuffer(Surface* surface){
+
+    SDL_Rect rectAroundSurface = surface->getCoveringSurfaceRect();
+
+    int startRectX = rectAroundSurface.x;
+    int startRectY = rectAroundSurface.y;
+    int endRectX = rectAroundSurface.x + rectAroundSurface.w;
+    int endRectY = rectAroundSurface.y + rectAroundSurface.h;
+
+    // if surface is not in the window on the screen
+    if (endRectX < 0 || endRectY < 0 || SCREEN_WIDTH < startRectX || SCREEN_HEIGHT < startRectY)
+        return;
+
+    // copy surface to zBuffer
+
+    // get surface Color
+    Color surfaceColor = surface->getSurfaceColor();
+
+    std::vector<std::pair<int, int>> pointsVector;
+
+    // create border points
+
+    surface->addBorderLinesPointsToVector(pointsVector);
+
+    // find center
+    Point center = surface->getCenter();
+
+    // recursive filling
+    recursiveFillVectorOfCoords(surface, pointsVector, center.x, center.y);
+
+    // update zBuffer
+    for (auto& point : pointsVector) {
+
+        int x = point.first;
+        int y = point.second;
+
+        if (x < 0 || y < 0 || x >= SCREEN_WIDTH || y >= SCREEN_HEIGHT)
+            continue;
+
+        double zCoord = surface->getZ(x, y);
+
+        if (zCoord > *zBuffer[y][x]) {
+            *zBuffer[y][x] = zCoord;
+            screenColorsArray[y][x]->r = surfaceColor.r;
+            screenColorsArray[y][x]->g = surfaceColor.g;
+            screenColorsArray[y][x]->b = surfaceColor.b;
+            screenColorsArray[y][x]->a = surfaceColor.a;
+        }
+
+    }
 }
 
 // clears array of colors and zBuffer
@@ -176,12 +131,14 @@ void ZBuffer::clearZBuffer(){
 
 }
 
-void ZBuffer::renderBuffer(SDL_Renderer* renderer, Parallelepiped* par, Pyramid* pyr){
+void ZBuffer::renderBuffer(SDL_Renderer* renderer, Parallelepiped* par, Pyramid* pyr, Point* lightSource){
 
     clearZBuffer();
 
     placeParallelepiped(par);
     placePyramid(pyr);
+
+    placeShades(renderer, par, pyr, lightSource);
 
     for (int y = 0; y < SCREEN_HEIGHT; y++)
         for (int x = 0; x < SCREEN_WIDTH; x++){
@@ -191,6 +148,86 @@ void ZBuffer::renderBuffer(SDL_Renderer* renderer, Parallelepiped* par, Pyramid*
         }
 
     SDL_RenderPresent(renderer);
+}
+
+void ZBuffer::placeShades(SDL_Renderer* renderer, Parallelepiped* par, Pyramid* pyr, Point* lightSource){
+
+    Color shadowColor(60, 60, 60, 255);
+
+    // create shadows for parallelepiped
+    Surface** arrayOfParSurfaces = par->createArrayOfSurfaces();
+    int numSurfaces = par->getNumSurfaces();
+
+    for (int i = 0; i < numSurfaces; i++) {
+        
+        int numVertexesInSurface = arrayOfParSurfaces[i]->getNumPoints();
+        Point* shadowSurfacePointsArray = new Point[numVertexesInSurface];
+        // for every surface in parallelepiped create shadow surface
+
+        for (int j = 0; j < numVertexesInSurface; j++) {
+
+            double zs = 0; // z shadow; on plane z = 0
+
+            // coords of vertex of parallelepiped surface
+            Point vertex = arrayOfParSurfaces[i]->getPoint(j);
+            double xv = vertex.x;
+            double yv = vertex.y;
+            double zv = vertex.z;
+
+            double xs = (-(zv / (lightSource->z - zv)) * (lightSource->x - xv)) + xv; // x shadow
+            double ys = (-(zv / (lightSource->z - zv)) * (lightSource->y - yv)) + yv; // y shadow
+
+            shadowSurfacePointsArray[j] = Point(xs, ys, zs);
+        }
+
+        Surface* shadowSurface = new Surface(numVertexesInSurface, shadowSurfacePointsArray, shadowColor);
+        placeSurfaceInZBuffer(shadowSurface);
+
+        delete shadowSurface;
+        delete[] shadowSurfacePointsArray;
+    }
+
+    for (int i = 0; i < numSurfaces; i++)
+        delete arrayOfParSurfaces[i];
+    delete[] arrayOfParSurfaces;
+
+
+    // create shadows for pyramid
+    Surface** arrayOfPyrSurfaces = pyr->createArrayOfSurfaces();
+    numSurfaces = pyr->getNumSurfaces();
+
+    for (int i = 0; i < numSurfaces; i++) {
+
+        int numVertexesInSurface = arrayOfPyrSurfaces[i]->getNumPoints();
+        Point* shadowSurfacePointsArray = new Point[numVertexesInSurface];
+        // for every surface in pyramid create shadow surface
+
+        for (int j = 0; j < numVertexesInSurface; j++) {
+
+            double zs = 0; // z shadow; on plane z = 0
+
+            // coords of vertex of pyramid surface
+            Point vertex = arrayOfPyrSurfaces[i]->getPoint(j);
+            double xv = vertex.x;
+            double yv = vertex.y;
+            double zv = vertex.z;
+
+            double xs = (-(zv / (lightSource->z - zv)) * (lightSource->x - xv)) + xv; // x shadow
+            double ys = (-(zv / (lightSource->z - zv)) * (lightSource->y - yv)) + yv; // y shadow
+
+            shadowSurfacePointsArray[j] = Point(xs, ys, zs);
+        }
+
+        Surface* shadowSurface = new Surface(numVertexesInSurface, shadowSurfacePointsArray, shadowColor);
+        placeSurfaceInZBuffer(shadowSurface);
+
+        delete shadowSurface;
+        delete[] shadowSurfacePointsArray;
+    }
+
+    for (int i = 0; i < numSurfaces; i++)
+        delete arrayOfPyrSurfaces[i];
+    delete[] arrayOfPyrSurfaces;
 }
 
 void ZBuffer::recursiveFillVectorOfCoords(Surface* surface, std::vector<std::pair<int, int>>& pointsVector, int startX, int startY) {

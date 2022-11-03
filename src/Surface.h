@@ -28,6 +28,8 @@ public:
     double getZ(double x, double y);
 
     Point getCenter();
+    Point getPoint(int index);
+    int getNumPoints();
 
     void addBorderLinesPointsToVector(std::vector<std::pair<int, int>>& vec);
 
