@@ -1,13 +1,13 @@
-#include "LineSegment.h"
+#include "LineSegment2D.h"
 
-LineSegment::LineSegment(int x1, int y1, int x2, int y2) {
+LineSegment2D::LineSegment2D(int x1, int y1, int x2, int y2) {
 	this->x1 = x1;
 	this->x2 = x2;
 	this->y1 = y1;
 	this->y2 = y2;
 }
 
-void LineSegment::addAllSegmentPointsToVector(std::vector<std::pair<int, int>>& vec) {
+void LineSegment2D::addAllSegmentPointsToVector(std::vector<std::pair<int, int>>& vec) {
 
     const int deltaX = abs(x2 - x1);
     const int deltaY = abs(y2 - y1);

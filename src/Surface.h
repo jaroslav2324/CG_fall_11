@@ -9,8 +9,8 @@
 #include "Color.h"
 #include "Point.h"
 #include "EquationPlane.h"
-#include "Line.h"
-#include "LineSegment.h"
+#include "Line2D.h"
+#include "LineSegment2D.h"
 
 class Surface{
 public:

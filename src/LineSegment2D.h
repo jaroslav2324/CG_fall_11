@@ -3,10 +3,10 @@
 #include <cstdlib>
 
 // line segment on the screen
-class LineSegment {
+class LineSegment2D {
 
 public:
-	LineSegment(int x1, int y1, int x2, int y2);
+	LineSegment2D(int x1, int y1, int x2, int y2);
 
 	void addAllSegmentPointsToVector(std::vector<std::pair<int, int>>& vec);
 

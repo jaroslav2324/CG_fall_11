@@ -1,6 +1,6 @@
-#include "Line.h"
+#include "Line2D.h"
 
-Line::Line(double x1, double y1, double x2, double y2) {
+Line2D::Line2D(double x1, double y1, double x2, double y2) {
 
 	//find coefficients of the line
 	coeffA = y1 - y2;
@@ -8,7 +8,7 @@ Line::Line(double x1, double y1, double x2, double y2) {
 	coeffC = -(y1 - y2) * x2 + (x1 - x2) * y2;
 }
 
-bool Line::isPointRightFromLine(double x, double y) {
+bool Line2D::isPointRightFromLine(double x, double y) {
 
 	double lineX;
 
@@ -24,7 +24,7 @@ bool Line::isPointRightFromLine(double x, double y) {
 }
 
 // returns MINUS_INF if vertical line
-double Line::findY(double x) {
+double Line2D::findY(double x) {
 
 	//be carefull with MINUS_INF
 	if (coeffB == 0)
@@ -34,7 +34,7 @@ double Line::findY(double x) {
 }
 
 // returns MINUS_INF if horizontal line
-double Line::findX(double y) {
+double Line2D::findX(double y) {
 
 	//be carefull with MINUS_INF
 	if (coeffA == 0)

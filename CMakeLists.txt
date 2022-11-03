@@ -12,7 +12,7 @@ set(SDL2_LIBRARY "C:/Libs/SDL2-2.0.20/lib/x64/SDL2.lib;C:/Libs/SDL2-2.0.20/lib/x
 
 include_directories(${SDL2_INCLUDE_DIR})
 set(SOURCE_FILES src/main.cpp src/Matrix.cpp src/Color.cpp src/EquationPlane.cpp src/Parallelepiped.cpp src/Pyramid.cpp 
-src/rotationMatrixes.cpp src/Surface.cpp src/ZBuffer.cpp src/Line.cpp src/LineSegment.cpp src/Application.cpp)
+src/rotationMatrixes.cpp src/Surface.cpp src/ZBuffer.cpp src/Line2D.cpp src/LineSegment2D.cpp src/Application.cpp)
 
 add_executable(main ${SOURCE_FILES})
 target_link_libraries(main ${SDL2_LIBRARY} )

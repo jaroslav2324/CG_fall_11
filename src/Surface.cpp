@@ -70,7 +70,7 @@ bool Surface::isPointInsideSurface(int x, int y){
             (pointsArray[indexFirstP].y > y && pointsArray[indexSecondP].y > y))
             continue;
 
-        Line line(pointsArray[indexFirstP].x, pointsArray[indexFirstP].y, pointsArray[indexSecondP].x, pointsArray[indexSecondP].y);
+        Line2D line(pointsArray[indexFirstP].x, pointsArray[indexFirstP].y, pointsArray[indexSecondP].x, pointsArray[indexSecondP].y);
 
         if (line.isPointRightFromLine(x, y))
             numLinesFromRight++;
@@ -169,7 +169,7 @@ void Surface::addBorderLinesPointsToVector(std::vector<std::pair<int, int>>& vec
         int x2 = pointsArray[j].x;
         int y2 = pointsArray[j].y;
 
-        LineSegment seg(x1, y1, x2, y2);
+        LineSegment2D seg(x1, y1, x2, y2);
         seg.addAllSegmentPointsToVector(vec);
     }
 }
