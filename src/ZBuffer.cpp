@@ -74,6 +74,10 @@ void ZBuffer::placeSurfaceInZBuffer(Surface* surface){
     int endRectX = rectAroundSurface.x + rectAroundSurface.w;
     int endRectY = rectAroundSurface.y + rectAroundSurface.h;
 
+
+    if (surface->isParallelToOZ())
+        return;
+
     // if surface is not in the window on the screen
     if (endRectX < 0 || endRectY < 0 || SCREEN_WIDTH < startRectX || SCREEN_HEIGHT < startRectY)
         return;

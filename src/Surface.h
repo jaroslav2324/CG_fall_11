@@ -33,6 +33,8 @@ public:
 
     void addBorderLinesPointsToVector(std::vector<std::pair<int, int>>& vec);
 
+    bool isParallelToOZ();
+
 private:
 
     double findMaxZ();

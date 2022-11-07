@@ -188,3 +188,8 @@ void Surface::addBorderLinesPointsToVector(std::vector<std::pair<int, int>>& vec
         seg.addAllSegmentPointsToVector(vec);
     }
 }
+
+bool Surface::isParallelToOZ()
+{
+    return equationPlane->isParallelToOZ();
+}
