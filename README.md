@@ -2,7 +2,7 @@
 
 Application with parallelepiped and pyramid.
 You can shift, rotate and scale these objects.
-In this project zbuffer, seed filling algorythm, light source on final distance.
+In this project zbuffer, seed filling algorythm, light source on final distance are implemented.
 
 Screenshots:
 ![image](https://user-images.githubusercontent.com/94970404/220272475-e2b59f5c-8bf6-4488-bf6e-127e439fda8e.png)
