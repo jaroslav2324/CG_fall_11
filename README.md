@@ -1,4 +1,4 @@
-# KomputerGraphics_fall_11
+# ComputerGraphics_fall_11
 
 Application with parallelepiped and pyramid.
 You can shift, rotate and scale these objects.
